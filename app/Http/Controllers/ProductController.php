@@ -97,7 +97,8 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $reviews = $product->reviews()->paginate(5);
-  
+        // var_dump($reviews);exit;
+
         return view('products.show', compact('product', 'reviews'));
     }
 

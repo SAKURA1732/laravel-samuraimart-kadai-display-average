@@ -27,6 +27,12 @@
                             {{$product->name}}
                         </h1>
                         <p>
+                @if ($product->reviews()->exists())
+                    <span class="samuraimart-star-rating" data-rate="{{ round($product->reviews->avg('score') * 2) / 2 }}"></span>
+                    {{ round($product->reviews->avg('score'), 1) }}<br>
+                @endif
+                 </p>
+                        <p>
                             {{$product->description}}
                         </p>
                     </div>
@@ -41,6 +47,7 @@
 
                     @auth
                         <form method="POST" action="{{route('carts.store')}}" class="align-items-end">
+
                             @csrf
                             <input type="hidden" name="id" value="{{$product->id}}">
                             <input type="hidden" name="name" value="{{$product->name}}">
@@ -91,6 +98,13 @@
 
             <div class="row">
                 <h2 class="float-left">カスタマーレビュー</h2>
+                <p>
+                @if ($product->reviews()->exists())
+                    <span class="samuraimart-star-rating" data-rate="{{ round($product->reviews->avg('score') * 2) / 2 }}"></span>
+                    {{ round($product->reviews->avg('score'), 1) }}<br>
+                @endif
+                 </p>
+
             </div>
 
             <div class="row mb-3">
@@ -112,7 +126,7 @@
                                     <option value="1" class="review-score-color">★</option>
                                 </select>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3"> 
                                 <label class="fs-5 mb-1">タイトル</label>
                                 @error('title')
                                     <p class="text-danger">
@@ -144,9 +158,9 @@
                             <div class="mb-5">
                                 <h3>{{ $review->title }}</h3>
                                 <p class="fs-5 mb-2"><span class="review-score-color">{{ str_repeat('★', $review->score) }}</span><span class="review-score-blank-color">{{ str_repeat('★', 5 - $review->score) }}</span></p>
-                                <p>{{$review->content}}</p>
-                                <p><span class="fw-bold me-2">{{$review->user->name}}</span><span class="text-muted">{{ $review->created_at->format('Y年m月d日') }}</span></p>
-                            </div>
+                                 <p>{{$review->content}}</p> 
+
+
                         @endforeach
 
                         <div class="mb-4">
@@ -159,3 +173,4 @@
     </div>
 </div>
 @endsection
+
